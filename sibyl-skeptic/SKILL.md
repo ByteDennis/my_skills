@@ -1,5 +1,10 @@
 ---
 name: sibyl-skeptic
+description: Sibyl 怀疑论者 agent - 以最大怀疑态度审视实验结果
+context: fork
+agent: sibyl-light
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, Skill
 tags: [local]
 ---
 

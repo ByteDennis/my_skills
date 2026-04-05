@@ -1,5 +1,6 @@
 ---
 name: server-admin
+description: Server administration commands and system monitoring
 tags: [server, admin, systemd, networking, local]
 ---
 

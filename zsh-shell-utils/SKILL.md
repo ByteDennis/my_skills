@@ -1,5 +1,6 @@
 ---
 name: zsh-shell-utils
+description: Zsh shell functions and aliases reference card
 tags: [zsh, shell, aliases, functions, local]
 ---
 

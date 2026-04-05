@@ -1,5 +1,10 @@
 ---
 name: sibyl-revisionist
+description: Sibyl 修正主义者 agent - 基于实验结果反思假设，提出修正方向
+context: fork
+agent: sibyl-light
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Skill
 tags: [local]
 ---
 

@@ -1,5 +1,10 @@
 ---
 name: sibyl-experimenter
+description: Sibyl 实验执行 agent - 编写代码并在远程 GPU 上执行实验
+context: fork
+agent: sibyl-standard
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, WebSearch, WebFetch, mcp__ssh-mcp-server__execute-command, mcp__ssh-mcp-server__upload, mcp__ssh-mcp-server__download, mcp__ssh-mcp-server__list-servers, Skill
 tags: [local]
 ---
 

@@ -1,5 +1,10 @@
 ---
 name: sibyl-rebuttal-checker
+description: Sibyl Rebuttal 质检 agent - 逻辑一致性/覆盖率/字数审查
+context: fork
+agent: sibyl-light
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, Skill
 tags: [local]
 ---
 

@@ -1,5 +1,10 @@
 ---
 name: sibyl-experiment-supervisor
+description: Sibyl 后台实验监督 agent - 持续刷新 GPU 空闲状态、动态派发排队实验、处理运行时间/状态漂移
+context: fork
+agent: sibyl-standard
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, Skill, Agent, mcp__ssh-mcp-server__execute-command, mcp__ssh-mcp-server__upload, mcp__ssh-mcp-server__download, mcp__ssh-mcp-server__list-servers
 tags: [local]
 ---
 

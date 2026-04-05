@@ -1,5 +1,10 @@
 ---
 name: sibyl-simulated-reviewer
+description: Sibyl 模拟 Reviewer agent - 从真实 reviewer 视角重新评估 rebuttal
+context: fork
+agent: sibyl-standard
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, Skill
 tags: [local]
 ---
 

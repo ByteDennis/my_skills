@@ -1,5 +1,10 @@
 ---
 name: sibyl-latex-writer
+description: Sibyl LaTeX 排版 agent - 将论文转为 NeurIPS LaTeX 格式并编译
+context: fork
+agent: sibyl-standard
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, mcp__ssh-mcp-server__execute-command, mcp__ssh-mcp-server__upload, mcp__ssh-mcp-server__download, mcp__ssh-mcp-server__list-servers, Skill
 tags: [local]
 ---
 

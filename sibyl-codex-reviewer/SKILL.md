@@ -1,5 +1,10 @@
 ---
 name: sibyl-codex-reviewer
+description: Sibyl Codex 独立第三方审查 - 使用 OpenAI Codex 提供不同 AI 视角的评审
+context: fork
+agent: sibyl-light
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, mcp__codex__codex, Skill
 tags: [local]
 ---
 

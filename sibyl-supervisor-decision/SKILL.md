@@ -1,5 +1,10 @@
 ---
 name: sibyl-supervisor-decision
+description: Sibyl 监督决策 agent - 分析实验结果决定 PIVOT 还是 PROCEED
+context: fork
+agent: sibyl-heavy
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, Skill
 tags: [local]
 ---
 

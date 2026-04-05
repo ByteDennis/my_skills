@@ -1,5 +1,10 @@
 ---
 name: sibyl-optimist
+description: Sibyl 乐观分析者 agent - 从积极角度分析实验结果
+context: fork
+agent: sibyl-light
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, Skill
 tags: [local]
 ---
 

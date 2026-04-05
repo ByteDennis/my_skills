@@ -1,5 +1,7 @@
 ---
 name: gemini-academic-figures
+description: Generate high-quality academic conference paper figures using Google Gemini. Use when the user asks to create methodology diagrams, architecture diagrams, flowcharts, pipeline figures, or any visual for ML/AI papers (NeurIPS, ICML, ICLR, ACL, AAAI, COLM style). Covers both Gemini API and Gemini web (AI Studio) workflows.
+version: 2.0.0
 tags: [local]
 ---
 

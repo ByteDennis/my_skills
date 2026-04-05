@@ -1,5 +1,10 @@
 ---
 name: sibyl-idea-validation-decision
+description: Sibyl pilot 验证决策 agent - 根据小实验结果决定 ADVANCE / REFINE / PIVOT
+context: fork
+agent: sibyl-heavy
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, Skill
 tags: [local]
 ---
 

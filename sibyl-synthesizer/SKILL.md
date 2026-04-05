@@ -1,5 +1,10 @@
 ---
 name: sibyl-synthesizer
+description: Sibyl 综合决策者 agent - 综合多方观点生成最终研究提案
+context: fork
+agent: sibyl-heavy
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, WebSearch, WebFetch, mcp__arxiv-mcp-server__search_papers, mcp__arxiv-mcp-server__read_paper, mcp__google-scholar__search_google_scholar_key_words, Skill
 tags: [local]
 ---
 

@@ -1,5 +1,10 @@
 ---
 name: sibyl-rebuttal-synthesizer
+description: Sibyl Rebuttal 综合者 agent - 整合团队输出为完整 rebuttal
+context: fork
+agent: sibyl-heavy
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, Skill
 tags: [local]
 ---
 

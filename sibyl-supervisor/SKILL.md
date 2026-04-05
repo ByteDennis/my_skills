@@ -1,5 +1,10 @@
 ---
 name: sibyl-supervisor
+description: Sibyl 监督审查 agent - 独立第三方质量审查
+context: fork
+agent: sibyl-heavy
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, WebSearch, Skill
 tags: [local]
 ---
 

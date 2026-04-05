@@ -1,5 +1,10 @@
 ---
 name: sibyl-section-writer
+description: Sibyl 章节撰写 agent - 撰写论文特定章节
+context: fork
+agent: sibyl-standard
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, Skill
 tags: [local]
 ---
 

@@ -1,5 +1,10 @@
 ---
 name: sibyl-critic
+description: Sibyl 批评者 agent - 苛刻但公正的学术批评
+context: fork
+agent: sibyl-heavy
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, Skill
 tags: [local]
 ---
 

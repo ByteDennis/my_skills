@@ -1,5 +1,10 @@
 ---
 name: sibyl-rebuttal-theorist
+description: Sibyl Rebuttal 理论专家 agent - 强化理论论证和数学证明
+context: fork
+agent: sibyl-standard
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, WebSearch, Skill
 tags: [local]
 ---
 

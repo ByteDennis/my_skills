@@ -1,5 +1,6 @@
 ---
 name: gpu-ml-tools
+description: GPU monitoring and ML environment quick reference
 tags: [gpu, cuda, python, ml, local]
 ---
 

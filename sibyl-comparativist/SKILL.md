@@ -1,5 +1,10 @@
 ---
 name: sibyl-comparativist
+description: Sibyl 比较分析者 agent - 对标 SOTA 和同类工作，定位结果贡献
+context: fork
+agent: sibyl-light
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, WebSearch, WebFetch, mcp__arxiv-mcp-server__search_papers, mcp__google-scholar__search_google_scholar_key_words, Skill
 tags: [local]
 ---
 

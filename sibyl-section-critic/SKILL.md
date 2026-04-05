@@ -1,5 +1,10 @@
 ---
 name: sibyl-section-critic
+description: Sibyl 章节评审 agent - 评审论文特定章节
+context: fork
+agent: sibyl-light
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, Skill
 tags: [local]
 ---
 

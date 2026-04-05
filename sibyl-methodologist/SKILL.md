@@ -1,5 +1,10 @@
 ---
 name: sibyl-methodologist
+description: Sibyl 方法论者 agent - 审查实验方法的内外部效度和可复现性
+context: fork
+agent: sibyl-light
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Skill
 tags: [local]
 ---
 

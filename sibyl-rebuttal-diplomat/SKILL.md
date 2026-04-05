@@ -1,5 +1,10 @@
 ---
 name: sibyl-rebuttal-diplomat
+description: Sibyl Rebuttal 外交官 agent - 措辞语气管理
+context: fork
+agent: sibyl-light
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, Skill
 tags: [local]
 ---
 

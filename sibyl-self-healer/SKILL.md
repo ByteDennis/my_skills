@@ -1,5 +1,10 @@
 ---
 name: sibyl-self-healer
+description: Sibyl 自愈 agent - 后台自动检测修复系统错误，添加回归测试，git commit 留痕
+context: fork
+agent: sibyl-standard
+user-invocable: true
+allowed-tools: Read, Write, Edit, Glob, Grep, Bash, Skill, Agent
 tags: [local]
 ---
 

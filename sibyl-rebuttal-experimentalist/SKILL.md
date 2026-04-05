@@ -1,5 +1,10 @@
 ---
 name: sibyl-rebuttal-experimentalist
+description: Sibyl Rebuttal 实验设计 agent - 设计补充实验计划（不执行）
+context: fork
+agent: sibyl-standard
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, Skill
 tags: [local]
 ---
 

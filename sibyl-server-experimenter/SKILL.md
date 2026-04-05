@@ -1,5 +1,10 @@
 ---
 name: sibyl-server-experimenter
+description: Sibyl 服务器端实验 agent - 在远程服务器上使用 Codex/Claude 本地执行实验
+context: fork
+agent: sibyl-standard
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, mcp__ssh-mcp-server__execute-command, mcp__ssh-mcp-server__upload, mcp__ssh-mcp-server__download, mcp__ssh-mcp-server__list-servers, Skill
 tags: [local]
 ---
 

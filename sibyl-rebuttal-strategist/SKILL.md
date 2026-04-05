@@ -1,5 +1,10 @@
 ---
 name: sibyl-rebuttal-strategist
+description: Sibyl Rebuttal 策略分析 agent - 解析 reviewer 评价、优先级排序、评估分数
+context: fork
+agent: sibyl-heavy
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, WebSearch, WebFetch, Skill
 tags: [local]
 ---
 

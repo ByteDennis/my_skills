@@ -1,5 +1,10 @@
 ---
 name: sibyl-rebuttal-scholar
+description: Sibyl Rebuttal 文献搜索 agent - 引经据典，搜集支持论据
+context: fork
+agent: sibyl-standard
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, WebSearch, WebFetch, mcp__arxiv-mcp-server__search_papers, mcp__arxiv-mcp-server__read_paper, mcp__google-scholar__search_google_scholar_key_words, Skill
 tags: [local]
 ---
 

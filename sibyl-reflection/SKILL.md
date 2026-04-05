@@ -1,5 +1,10 @@
 ---
 name: sibyl-reflection
+description: Sibyl 反思 agent - 分析迭代产出，分类问题，生成改进计划
+context: fork
+agent: sibyl-heavy
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, Skill
 tags: [local]
 ---
 

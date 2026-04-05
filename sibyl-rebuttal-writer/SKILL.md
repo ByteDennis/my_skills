@@ -1,5 +1,10 @@
 ---
 name: sibyl-rebuttal-writer
+description: Sibyl Rebuttal 写手 agent - 撰写正式 rebuttal 回复
+context: fork
+agent: sibyl-standard
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, Skill
 tags: [local]
 ---
 

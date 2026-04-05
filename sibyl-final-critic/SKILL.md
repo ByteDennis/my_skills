@@ -1,5 +1,10 @@
 ---
 name: sibyl-final-critic
+description: Sibyl 终审 agent - NeurIPS/ICML 级别的论文终审
+context: fork
+agent: sibyl-heavy
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, Skill
 tags: [local]
 ---
 

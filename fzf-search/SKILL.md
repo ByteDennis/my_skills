@@ -1,5 +1,6 @@
 ---
 name: fzf-search
+description: FZF fuzzy finder keybindings and usage patterns
 tags: [fzf, search, shell, productivity, local]
 ---
 

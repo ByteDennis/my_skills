@@ -1,5 +1,10 @@
 ---
 name: sibyl-editor
+description: Sibyl 编辑 agent - 整合论文各章节为完整稿件
+context: fork
+agent: sibyl-heavy
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, Skill
 tags: [local]
 ---
 

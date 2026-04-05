@@ -1,5 +1,10 @@
 ---
 name: sibyl-codex-writer
+description: Sibyl Codex 写作 agent - 使用 Codex (GPT-5) 撰写论文
+context: fork
+agent: sibyl-standard
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, mcp__codex__codex, mcp__codex__codex-reply, Skill
 tags: [local]
 ---
 

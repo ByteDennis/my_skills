@@ -1,5 +1,6 @@
 ---
 name: tmux-keybindings
+description: Tmux keybindings quick reference (prefix = C-a)
 tags: [tmux, keybindings, terminal, local]
 ---
 

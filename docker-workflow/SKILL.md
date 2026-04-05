@@ -1,5 +1,6 @@
 ---
 name: docker-workflow
+description: Docker and docker compose common workflows
 tags: [docker, containers, deployment, local]
 ---
 

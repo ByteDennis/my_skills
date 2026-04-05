@@ -1,5 +1,10 @@
 ---
 name: sibyl-rebuttal-advocate
+description: Sibyl Rebuttal 辩护者 agent - 穷尽角度为论文辩护
+context: fork
+agent: sibyl-light
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, WebSearch, Skill
 tags: [local]
 ---
 

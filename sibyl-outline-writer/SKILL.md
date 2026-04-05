@@ -1,5 +1,10 @@
 ---
 name: sibyl-outline-writer
+description: Sibyl 大纲撰写 agent - 生成论文详细大纲
+context: fork
+agent: sibyl-standard
+user-invocable: false
+allowed-tools: Read, Write, Glob, Grep, Bash, Skill
 tags: [local]
 ---
 
