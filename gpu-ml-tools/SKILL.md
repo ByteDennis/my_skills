@@ -49,3 +49,11 @@ mm activate myenv
 mm install pytorch torchvision -c pytorch
 mm env list
 ```
+
+## Vast.ai GPU (via workspace-job)
+
+```bash
+vast search offers "gpu_name==RTX_5090 dph_total<=0.40"
+vast create instance <offer_id> --image pytorch/pytorch:2.5.1-cuda12.8.1
+vast ssh <instance_id>
+```
