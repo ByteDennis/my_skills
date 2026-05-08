@@ -1,7 +1,8 @@
 ---
+id: skill-zsh-shell-utils
 name: zsh-shell-utils
-description: Zsh shell functions and aliases reference card
 tags: [zsh, shell, aliases, functions, local]
+updated_at: 2026-05-05T11:45:33.046977Z
 ---
 
 # Zsh Shell Utilities

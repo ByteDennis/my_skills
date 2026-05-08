@@ -1,7 +1,8 @@
 ---
+id: skill-tmux-keybindings
 name: tmux-keybindings
-description: Tmux keybindings quick reference (prefix = C-a)
 tags: [tmux, keybindings, terminal, local]
+updated_at: 2026-05-05T11:45:33.046977Z
 ---
 
 # Tmux Keybindings (Prefix: C-a)

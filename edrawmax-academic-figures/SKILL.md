@@ -1,8 +1,8 @@
 ---
+id: skill-edrawmax-academic-figures
 name: edrawmax-academic-figures
-description: Use Wondershare EdrawMax for creating and refining academic conference paper figures. Use when the user mentions EdrawMax, Edraw, Wondershare, or wants to post-process AI-generated figures, create vector diagrams, or produce publication-ready figures using EdrawMax. Covers EdrawMax AI features, templates, and integration with Gemini-generated figures.
-version: 1.0.0
 tags: [local]
+updated_at: 2026-05-05T11:45:33.046977Z
 ---
 
 # EdrawMax for Academic Paper Figures

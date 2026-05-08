@@ -1,7 +1,8 @@
 ---
+id: skill-rsync-service
 name: rsync-service
-description: Rsync web UI service — file sync, profiles, filters, and .rsyncignore usage
 tags: [rsync, sync, deployment, migration, local]
+updated_at: 2026-05-05T11:45:33.046977Z
 ---
 
 # Rsync Service

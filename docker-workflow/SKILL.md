@@ -1,7 +1,8 @@
 ---
+id: skill-docker-workflow
 name: docker-workflow
-description: Docker and docker compose common workflows
 tags: [docker, containers, deployment, local]
+updated_at: 2026-05-05T11:45:33.046977Z
 ---
 
 # Docker Workflow

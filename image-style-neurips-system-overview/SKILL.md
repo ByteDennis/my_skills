@@ -2,7 +2,7 @@
 id: image-style-neurips-system-overview
 name: NeurIPS System Overview
 tags: [image-style, neurips, pipeline, architecture]
-updated_at: 2026-05-05T08:55:32.950909Z
+updated_at: 2026-05-05T17:37:40.320623Z
 ---
 
 ---

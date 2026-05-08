@@ -2,7 +2,7 @@
 id: image-style-icml-method-cartoon
 name: ICML Method Cartoon
 tags: [image-style, icml, intuition, cartoon]
-updated_at: 2026-05-05T08:55:32.911001Z
+updated_at: 2026-05-05T17:37:40.276305Z
 ---
 
 ---

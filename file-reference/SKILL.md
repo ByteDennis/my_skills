@@ -1,9 +1,8 @@
 ---
+id: skill-file-reference
 name: skill-file-reference
-description: Reference for creating Claude Code skill files. Use when asked how to write a SKILL.md, what fields are available, or how to structure a custom slash command.
-disable-model-invocation: true
-allowed-tools: Read Write Glob
 tags: [local]
+updated_at: 2026-05-05T11:45:33.046977Z
 ---
 
 # Claude Code Skill File Reference

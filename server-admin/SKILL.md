@@ -1,7 +1,8 @@
 ---
+id: skill-server-admin
 name: server-admin
-description: Server administration commands and system monitoring
 tags: [server, admin, systemd, networking, local]
+updated_at: 2026-05-05T11:45:33.046977Z
 ---
 
 # Server Administration

@@ -1,7 +1,8 @@
 ---
+id: skill-fzf-search
 name: fzf-search
-description: FZF fuzzy finder keybindings and usage patterns
 tags: [fzf, search, shell, productivity, local]
+updated_at: 2026-05-05T11:45:33.046977Z
 ---
 
 # FZF Fuzzy Finder

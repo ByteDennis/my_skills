@@ -2,7 +2,7 @@
 id: image-style-comparison-grid
 name: Comparison Grid (n×m)
 tags: [image-style, results, grid, comparison]
-updated_at: 2026-05-05T08:55:32.824262Z
+updated_at: 2026-05-05T17:37:40.199875Z
 ---
 
 ---

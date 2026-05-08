@@ -2,7 +2,7 @@
 id: image-style-visual-abstract
 name: Visual Abstract Banner
 tags: [image-style, visual-abstract, banner, narrative]
-updated_at: 2026-05-05T08:55:32.991898Z
+updated_at: 2026-05-05T17:37:40.359591Z
 ---
 
 ---

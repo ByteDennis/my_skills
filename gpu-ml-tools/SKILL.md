@@ -1,7 +1,8 @@
 ---
+id: skill-gpu-ml-tools
 name: gpu-ml-tools
-description: GPU monitoring and ML environment quick reference
 tags: [gpu, cuda, python, ml, local]
+updated_at: 2026-05-05T11:45:33.046977Z
 ---
 
 # GPU & ML Tools
