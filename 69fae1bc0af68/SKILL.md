@@ -2,7 +2,7 @@
 id: 69fae1bc0af68
 name: RankMixer
 tags: []
-updated_at: 2026-05-06T06:42:45.088845Z
+updated_at: 2026-05-08T04:31:52.144146Z
 ---
 
 ## 在模型中的位置（model.py:966-970）
@@ -35,6 +35,17 @@ seq_d (B,Ld,D) ─┘ encoder_d ─┘ cross-attn_d ─┘ decoded_q_d (B,Nq,D)
 默认参数：`Nq=2, S=4, Nns≈3` → `T = 2×4+3 = 11` 个 token。
 
 step 1/2 各 seq 独立 encode / cross-attn，彼此隔离；所有跨序列（a↔b↔c↔d）及跨域（seq↔NS）交互**全在这一步**。
+
+## 名字来历
+
+`RankMixer` 是 PCVRHyFormer 内部模块名（`RankMixerBlock` / `RankMixerNSTokenizer`），不是独立论文。
+
+| 词 | 含义 |
+|----|------|
+| Rank | 张量的秩/维度重排（≠ 排序 ranking） |
+| Mixer | 同 MLP-Mixer：token-mixing + channel-mixing 的思路 |
+
+`full` 模式下将 `(B, n_total, D)` reshape 为 `(B, n_total', D')` 再 transpose，本质是低秩 token 重组——靠维度重排做 token 交互，无可学参数。
 
 ## Block 模式对比
 
