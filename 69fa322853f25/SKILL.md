@@ -1,8 +1,8 @@
 ---
 id: 69fa322853f25
-name: RoPE Embedding
+name: RoPE Embed
 tags: []
-updated_at: 2026-05-05T18:12:43.554594Z
+updated_at: 2026-05-16T20:02:32.077100Z
 ---
 
 ## 核心思想

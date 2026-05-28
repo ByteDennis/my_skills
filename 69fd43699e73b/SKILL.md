@@ -1,8 +1,8 @@
 ---
 id: 69fd43699e73b
-name: AUC 优化
+name: AUC Measure
 tags: [auc, imbalanced, loss-function, ranking, classification]
-updated_at: 2026-05-08T02:05:51.715738Z
+updated_at: 2026-05-22T19:09:12.817034Z
 ---
 
 ## 目标与背景
@@ -73,3 +73,91 @@ optimizer = PESG(model.parameters(), loss_fn=loss_fn, lr=0.1, margin=1.0)
 - 想直接优化 AUC，工程可控 → **Pairwise Ranking**（采样控制 batch 大小）
 - 数据量大，愿意调参 → **AUC-ML Loss**（理论上限最高）
 - Focal Loss 在极度不平衡目标检测中设计，分类 AUC 任务优势不明显
+
+## 诊断：Loss 选对了但 AUC 还是不高
+
+Loss 只保证梯度方向对；AUC 卡住往往是**模型在错的地方出错**。以下三个切片快速定位。
+
+### 按自信度切片（所有错例，$\text{correct}=0$）
+
+| 切片 | 条件 | 含义 | 该改什么 |
+|------|------|------|----------|
+| **Confident wrong** | $\lvert\hat{p}-0.5\rvert > 0.4$ | 模型很笃定但错了 → 过拟合到误导性特征 | 砍该特征 / 加 regularization / dropout |
+| **Ambiguous wrong** | $\lvert\hat{p}-0.5\rvert < 0.1$ | 模型本来就不知道 → 欠拟合，缺关键特征 | 加新特征 / 加深模型 / 加 attention |
+| **Medium wrong** | 其他 | 一般错例 | 常规 boosting 加权 |
+
+对**正确样本**也做同样切片：Ambiguous right（猜对的）占比高 → AUC 虚高，泛化差的早期信号。
+
+### 按方向切片（F+ vs F−）
+
+| 类型 | 定义 | 常见原因 | 处方 |
+|------|------|----------|------|
+| **F+** | $y=0,\;\hat{p}>0.5$ | item 太热门 / user 活跃但本次无行为 → 负样本被拉高 | 降热度信号权重 |
+| **F−** | $y=1,\;\hat{p}<0.5$ | cold-start user / 长尾 item → hard positive 被漏掉 | 提高 $\gamma$（focal prior） |
+
+F+ 多 vs F− 多，调的方向完全相反，不切片就容易用错策略。
+
+### AUC 补充信号
+
+| 指标 | 公式 | 解读 |
+|------|------|------|
+| Separation | $\bar{\hat{p}}^+ - \bar{\hat{p}}^-$ | 越大越好；低 = 正负分布重叠严重 |
+| Loss ratio | $\mathcal{L}_\text{pos} / \mathcal{L}_\text{neg}$ | 比值高 = 正样本欠学 |
+| Overlap area | pos 与 neg $\hat{p}$ 直方图重叠面积 | 0 = 完美分开；比 AUC 更直观 |
+
+### 特征分布对比（过拟合 vs 欠拟合定位）
+
+对每个特征维度 $X$，比较三个分布：$D_\text{wrong}(X)$、$D_\text{all}(X)$、$D_\text{pos}(X)$。
+
+| 现象 | 判定 | 修法 |
+|------|------|------|
+| $D_\text{wrong} \approx D_\text{all}$，但错例集中在某 $\hat{p}$ 区间 | **欠拟合**：模型对 $X$ 无感，但 $X$ 与 label 实际相关 | 加 $X$ 相关特征 / 加深 / attention |
+| $D_\text{wrong} \not\approx D_\text{all}$（$\text{KL} > 0.1$） | **过拟合**：在 $X$ 的某个 bucket 上 over/underpredict | 降该段 embedding / 加 dropout |
+| $D_\text{wrong} \approx D_\text{pos}$ 且 wrong 是 F+ | **伪相关**：$X$ 与正样本相关但与行为不相关 | 砍 $X$ 或重新构造 |
+
+实现：pyarrow `group_by + histogram`，加几行 KL/JSD 计算即可。
+
+## Focal Loss 在广告推荐中为什么好用
+
+广告点击率的典型正样本率 ~1–10%，Focal Loss 在这个场景几乎是标配。原因分两层。
+
+### α：损失再平衡，不是正则
+
+$$\mathcal{L}_\text{focal} = \begin{cases} -\alpha\,(1-p)^\gamma \log p & y=1 \\ -(1-\alpha)\,p^\gamma \log(1-p) & y=0 \end{cases}$$
+
+$\alpha$ 控制正负样本的**全局损失权重**。直觉上正样本稀有应该 $\alpha$ 大（如 0.75）——但实际训练里正样本 loss 已经远高于负样本（例：$\mathcal{L}^+=1.49$，$\mathcal{L}^-=0.13$，比值 ×16），梯度已被正样本过度主导。
+
+此时 $\alpha=0.1$ 是**反向操作**：把每条正样本损失乘 0.1，让两侧贡献回到同量级：
+
+$$0.1 \times 1.49 \approx 0.9 \times 0.13$$
+
+这是**损失再平衡**，目的是消除梯度方差不对等，不是 L2/dropout 意义上的正则。
+
+### γ：抑制 easy 样本，把梯度留给 hard 样本
+
+$(1-p)^\gamma$ 这一项：
+- 正样本中，已经学对的（$p \to 1$）：$(1-p)^2 \approx 0$，损失近似归零
+- 正样本中，还没学对的（$p \to 0$）：$(1-p)^2 \approx 1$，损失完整保留
+
+负样本侧同理。**easy 样本的梯度贡献被动态压扁，hard 样本的贡献被保留。**
+
+### 为什么 ep4–6 的收益大于 ep1
+
+$\gamma$ 的作用随训练进度自适应变化：
+
+| 阶段 | 模型状态 | $\gamma=2$ 的作用 |
+|------|----------|------------------|
+| ep1 | 所有样本都是 hard | 几乎不抑制谁，等价于 BCE + $\alpha$ 缩放 |
+| ep2–3 | easy 样本开始学会，hard 样本未掌握 | 梯度逐渐从 easy 转向 hard |
+| ep4–6 | easy 样本已记牢，再看会过拟；hard 样本仍未掌握 | easy 贡献压近零，模型只对 hard 继续学 |
+
+实测对照（相同架构，仅换 loss）：
+
+| epoch | BCE | Focal $\alpha{=}0.1,\,\gamma{=}2$ |
+| :-------------|:---------------------------|-----------------------------------|
+| ep1 | 0.8508 | 0.8561 |
+| ep2 | **0.8546** ← peak | 0.8580 |
+| ep3 | 0.8521 (−0.0025) | 0.8599 |
+| ep4 | 0.8509 (−0.0037) | **0.8612** ← 仍在涨 |
+
+BCE 在 ep2 到顶，ep3–4 回退 0.004（easy 样本过拟）；Focal 让 ep4 仍有 +0.005 涨幅。

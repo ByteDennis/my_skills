@@ -1,8 +1,8 @@
 ---
 id: 6a031f9fe54b5
-name: COVA: Collaborative Vector Arithmetic for Recommendation Unlearning
-tags: [unlearn]
-updated_at: 2026-05-13T01:03:37.906308Z
+name: Collaborative Unlearn
+tags: [unlearn, relabel]
+updated_at: 2026-05-16T19:55:41.438803Z
 ---
 
 # COVA: Collaborative Vector Arithmetic for Recommendation Unlearning — 论文速读

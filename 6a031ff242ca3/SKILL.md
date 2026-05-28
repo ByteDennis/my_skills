@@ -1,12 +1,11 @@
 ---
 id: 6a031ff242ca3
-name: AMUN: Adversarial Machine Unlearning
+name: Adversarial Unlearn
 tags: [unlearn]
-updated_at: 2026-05-12T12:58:32.824243Z
+updated_at: 2026-05-16T20:00:43.913423Z
 ---
 
 # AMUN: Adversarial Machine Unlearning — 论文速读
-
 > Ebrahimpour-Boroojeny et al., ICML 2025 <br>
 > *"Not All Wrong is Bad: Using Adversarial Examples for Unlearning"*
 

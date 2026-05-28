@@ -1,8 +1,8 @@
 ---
 id: 69fb73ddb1910
-name: Compare Two Tables (Diff by PK)
+name: Pandas Skills
 tags: [data, pandas, comparison, etl, primary-key]
-updated_at: 2026-05-06T17:01:17.063856Z
+updated_at: 2026-05-16T20:01:49.514775Z
 ---
 
 ## When to use which approach

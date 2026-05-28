@@ -1,8 +1,8 @@
 ---
 id: skill-zsh-shell-utils
-name: zsh-shell-utils
+name: Zsh Skills
 tags: [zsh, shell, aliases, functions, local]
-updated_at: 2026-05-05T11:45:33.046977Z
+updated_at: 2026-05-16T20:02:18.521477Z
 ---
 
 # Zsh Shell Utilities

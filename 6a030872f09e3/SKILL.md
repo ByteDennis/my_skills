@@ -1,8 +1,8 @@
 ---
 id: 6a030872f09e3
-name: RMSNorm
+name: RMS Norm
 tags: []
-updated_at: 2026-05-12T11:13:50.621889Z
+updated_at: 2026-05-16T19:56:48.491415Z
 ---
 
 # RMSNorm 公式直觉理解

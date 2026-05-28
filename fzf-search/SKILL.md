@@ -1,8 +1,8 @@
 ---
 id: skill-fzf-search
-name: fzf-search
-tags: [fzf, search, shell, productivity, local]
-updated_at: 2026-05-05T11:45:33.046977Z
+name: Linux Skills
+tags: [shell, productivity, local]
+updated_at: 2026-05-16T20:01:16.367756Z
 ---
 
 # FZF Fuzzy Finder

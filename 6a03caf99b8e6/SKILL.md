@@ -2,21 +2,21 @@
 id: 6a03caf99b8e6
 name: Git Skills
 tags: [git]
-updated_at: 2026-05-13T02:29:45.672614Z
+updated_at: 2026-05-18T16:01:01.730241Z
 ---
 
-## Git 实战速查 — 面试必备
+## Git 命令速查
 
 本卡整理自一次真实 session：将上游仓库（`puiching/main`）以 vendor 方式拉取到 `references/puiching/`，以及围绕这一操作的检查与审计命令
 
 | 标题 | 内容 |
-|------|------|
+|------|------------------|
 | 1. Inspection | `status -sb`、`status -- <path>`、`log --oneline`、`log A..B`、`rev-list --left-right --count`、`rev-parse --show-toplevel --git-dir`、`remote -v`、`branch -r`、`ls-tree`、`show <ref>:<path>` |
 | 2. Diff | `diff --stat`、跨 ref 的 `diff <A>:<path> <B>:<path>`、负 pathspec `':!<pattern>'` |
 | 3. Fetching | `fetch <remote>`、`-C <dir>` 单次切目录、`-c <key>=<val>` 单次覆盖 config (本会话用来禁 LFS) |
 | 4. Tree extraction | `git archive <ref> \| tar -x [-C <target>]` + 子树切片 |
 | 5. Recovery | `checkout -- / restore`、`.gitignore` 跟已 track 文件的关系、`grep -rl + xargs rm` 清 LFS pointer |
-| 6. Composite recipes | 一段贴就能跑的 vendor-pull / 比对 fork / 看子树 commits 的命令组合 |
+| 6. Composite recipes | 一段贴就能跑的 vendor-pull / 比对 fork / 看子树 commits / **按 remote URL 找回失踪仓库** 的命令组合 |
 | 7. Pitfalls | 7 条本会话亲历的坑——`tar -x` 跟 shell cwd 走、`-C` 不传给 tar、`archive` 会跑 smudge、`.gitignore` 不撤已 track、worktree 的 `.git` 不是本地、`fetch` 安全可重跑等 |
 
 ---
@@ -178,7 +178,7 @@ $ git diff --stat main feature-x -- src/
 > 对比工作区、暂存区或任意两个 ref，可选汇总模式。
 
 | 用法 | 含义 |
-|------|------|
+|------|-------------|
 | `git diff` | 未暂存变更（工作区 vs 暂存区） |
 | `git diff --cached` | 已暂存变更（暂存区 vs HEAD） |
 | `git diff HEAD` | 全部变更（工作区 vs HEAD） |
@@ -378,6 +378,34 @@ git log --oneline -p -- <path>          # 提交 + patch
 git diff <ref-A>..<ref-B> -- <path>     # 两个 ref 之间的净差异
 git diff --stat <ref-A>..<ref-B> -- <path>  # 只看文件级统计
 ```
+
+### 按 remote URL 找回忘了放哪的仓库
+
+> 知道仓库的 remote slug，但忘了克隆到本地哪个目录。
+
+```bash
+PATTERN='OWNER/REPO'
+find / -type d -name .git 2>/dev/null | while read g; do
+    d=$(dirname "$g")
+    u=$(git -C "$d" remote -v 2>/dev/null)
+    [[ "$u" == *"$PATTERN"* ]] && printf '%s\n%s\n\n' "$d" "$u"
+done
+```
+
+把 `OWNER/REPO` 换成你记得的任意 URL 片段（仓库名、用户名、域名均可）。
+
+**各部分说明：**
+
+| 片段 | 作用 |
+|------|------|
+| `find / -type d -name .git 2>/dev/null` | 遍历整个文件系统，找出所有 `.git` 目录；`2>/dev/null` 压掉 `/proc`、`/root` 等权限报错 |
+| `dirname "$g"` | 去掉 `/.git` 后缀，得到仓库根目录 |
+| `git -C "$d" remote -v` | 列出该仓库所有 remote（不只是 `origin`）——这是早期尝试失败的关键修复点 |
+| `[[ "$u" == *"$PATTERN"* ]]` | glob 匹配 remote URL 中的仓库 slug |
+| `printf '%s\n%s\n\n'` | 打印路径 + 匹配的 remote 行 |
+
+> [!NOTE]
+> **为什么 `git remote get-url origin` 会失败？** 如果你的 remote 不叫 `origin`（例如叫 `my_work`、`upstream`、`work` 等），`get-url origin` 返回空，什么也匹配不到。`remote -v` 会列出**所有** remote，才是可靠的做法。
 
 ---
 

@@ -1,8 +1,8 @@
 ---
 id: skill-rsync-service
-name: rsync-service
+name: Rsync Service
 tags: [rsync, sync, deployment, migration, local]
-updated_at: 2026-05-05T11:45:33.046977Z
+updated_at: 2026-05-16T19:55:56.205218Z
 ---
 
 # Rsync Service
