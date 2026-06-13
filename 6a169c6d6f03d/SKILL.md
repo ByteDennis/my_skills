@@ -2,13 +2,13 @@
 id: 6a169c6d6f03d
 name: NodeJS
 tags: []
-updated_at: 2026-05-28T09:19:09.817612Z
+updated_at: 2026-06-07T01:22:52.225552Z
 ---
 
 ## 版本管理
 
 | 工具 | 安装 | 用法 |
-|--|----------|------|
+|--|--------------|------|
 | [nvm](https://github.com/nvm-sh/nvm) | `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh \| bash` | `nvm install 22` |
 | [fnm](https://github.com/Schniz/fnm) | `curl -fsSL https://fnm.vercel.app/install \| bash` | 更快的 nvm 替代品 |
 | [volta](https://volta.sh) | `curl https://get.volta.sh \| bash` | 按项目锁定版本 |
@@ -62,7 +62,7 @@ npx <pkg>                   # 无需安装直接运行
 ## ESM vs CommonJS
 
 | | ESM | CommonJS |
-|--|-----|----------|
+|---|-----|----------|
 | 语法 | `import` / `export` | `require()` / `module.exports` |
 | 文件扩展名 | `.mjs` 或 `"type":"module"` | `.cjs` 或默认 |
 | 顶层 await | ✅ | ❌ |
@@ -84,7 +84,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 ## 实用内置功能（Node 20+）
 
 | 功能 | API |
-|------|-----|
+|------|-------------------|
 | 测试运行器 | `node --test` / `import { test } from 'node:test'` |
 | 监听模式 | `node --watch index.js` |
 | 加载 `.env` | `node --env-file=.env index.js` |
@@ -263,7 +263,7 @@ Flask 将包文件挂载在 `/omi/ui/*`（如 `/omi/ui/css/omi.css`），
 `@dennisl0731/oh-my-ui` 通过 `package.json` 的 `exports` 字段暴露三个入口：
 
 | 导出 | 实际文件 | 说明 |
-|------|----------|------|
+|---------|----------|-----------------|
 | `./omi.css` | `css/omi.css` | 设计 token（`--omi-*`）+ 基础样式 + 组件 |
 | `./nav.js` | `js/nav.js` | 顶部导航渲染器，自动添加 `body.service-<name>` |
 | `./tailwind-preset` | `tailwind-preset.js` | Tailwind 预设（仅用于 Tailwind 项目）|
@@ -453,7 +453,7 @@ curl -fsS http://localhost:5007/omi/ui/js/nav.js  | wc -l
 ### 6. 踩过的坑
 
 | 问题 | 解决 |
-|------|------|
+|---|------|
 | `exports` 字段阻止直接 `require('…/package.json')` | 用 `fs.readFileSync` 直接读文件路径 |
 | 容器以 root 创建的 SQLite 文件，本地 Python 无法写入 | 本地验证用 `SETTINGS_DB=/tmp/test.db` |
 | `omi.css` 没有深色主题 | 在模板 `<style>` 里加 `body.theme-dark` 覆盖，JS 切换类名 |

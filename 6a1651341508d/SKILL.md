@@ -1,78 +1,78 @@
 ---
 id: 6a1651341508d
-name: AI-Humanizer: Academic Writing
+name: AI-Humanizer
 tags: [academic-writing, ai-detection, humanizer, cli, writing]
-updated_at: 2026-05-27T03:10:23.065282Z
+updated_at: 2026-06-01T04:16:15.279971Z
 ---
 
-## `humanize` CLI — lxgicstudios
+## `humanize` CLI 
 
-| Command | Example | Purpose |
-|--------|--------------|----------|
-| `humanize analyze` | `humanize analyze -f draft.md -V` | Detect AI markers & patterns |
-| `humanize score` | `humanize score -f draft.md` | Risk score (0–100) |
-| `humanize suggest` | `cat draft.md \| humanize suggest` | Prioritized fix list |
-| `humanize transform` | `humanize transform -f draft.md > out.md` | Auto-apply fixes |
-| `humanize watch` | `humanize watch ./papers --threshold 60` | Monitor dir for changes |
-| `humanize config` | `humanize config` | Show config & API status |
+| 命令 | 示例 | 用途 |
+|-----------|---------------------|----------|
+| `humanize analyze` | `humanize analyze -f draft.md -V` | 检测 AI 标记与模式 |
+| `humanize score` | `humanize score -f draft.md` | 风险评分（0–100） |
+| `humanize suggest` | `cat draft.md \| humanize suggest` | 优先修改建议列表 |
+| `humanize transform` | `humanize transform -f draft.md > out.md` | 自动应用修复 |
+| `humanize watch` | `humanize watch ./papers --threshold 60` | 监听目录变更 |
+| `humanize config` | `humanize config` | 查看配置与 API 状态 |
 
-**Key flags:** `-f <file>` · `-V` verbose · `-j` JSON · `-a` include GPTZero/Originality.ai · `-t <n>` threshold
+**常用参数：** `-f <file>` · `-V` 详细输出 · `-j` JSON 格式 · `-a` 调用 GPTZero/Originality.ai · `-t <n>` 阈值
 
-## `humanizer` CLI — brandonwise
+## `humanizer` CLI 
 
-| Command | Example | Purpose |
+| 命令 | 示例 | 用途 |
 |-------|------------|--------|
-| `humanizer score` | `humanizer score < draft.txt` | Quick AI score |
-| `humanizer analyze` | `humanizer analyze draft.md --verbose` | Full pattern detection |
-| `humanizer suggest` | `humanizer suggest draft.md` | Improvement list |
-| `humanizer humanize` | `humanizer humanize --autofix -f draft.md` | Guided rewrite + auto-fixes |
-| `humanizer compare` | `humanizer compare --before v1.md --after v2.md` | Score delta |
-| `humanizer report` | `humanizer report draft.md > report.md` | Full markdown report |
-| `humanizer scan` | `humanizer scan ./papers --ext md,txt` | Batch folder analysis |
+| `humanizer score` | `humanizer score < draft.txt` | 快速 AI 评分 |
+| `humanizer analyze` | `humanizer analyze draft.md --verbose` | 完整模式检测 |
+| `humanizer suggest` | `humanizer suggest draft.md` | 改进建议列表 |
+| `humanizer humanize` | `humanizer humanize --autofix -f draft.md` | 引导式重写 + 自动修复 |
+| `humanizer compare` | `humanizer compare --before v1.md --after v2.md` | 对比两版本分差 |
+| `humanizer report` | `humanizer report draft.md > report.md` | 输出完整 Markdown 报告 |
+| `humanizer scan` | `humanizer scan ./papers --ext md,txt` | 批量扫描文件夹 |
 
-**Key flags:** `--verbose` · `--json` · `--autofix` · `--ignore-code` · `--fail-above <n>`
+**常用参数：** `--verbose` · `--json` · `--autofix` · `--ignore-code` · `--fail-above <n>`
 
-## Workflow (60–100 min per 500–1000 words)
+## 工作流（每 500–1000 字约 60–100 分钟）
 
-| Stage | Action | Tool |
+| 阶段 | 操作 | 工具 |
 |----|--------|---------|
-| 1. Baseline | Score before editing | `humanize score -f draft.md` |
-| 2. Audit | Spot all AI markers | `humanizer analyze draft.md --verbose` |
-| 3. Suggest | Get fix priorities | `humanize suggest -f draft.md` |
-| 4. Voice | Contractions, asides, uneven paras | *(manual)* |
-| 5. Transform | Apply safe auto-fixes | `humanize transform -f draft.md > v2.md` |
-| 6. Cognition | Uncertainty markers, self-corrections | *(manual)* |
-| 7. Compare | Confirm score improved | `humanizer compare --before v1.md --after v2.md` |
+| 1. 基线 | 编辑前先打分 | `humanize score -f draft.md` |
+| 2. 审查 | 检出所有 AI 标记 | `humanizer analyze draft.md --verbose` |
+| 3. 建议 | 获取修改优先级 | `humanize suggest -f draft.md` |
+| 4. 语气注入 | 添加缩略语、旁白、段落长短变化 | *(手动)* |
+| 5. 自动修复 | 应用安全的自动修改 | `humanize transform -f draft.md > v2.md` |
+| 6. 认知纹理 | 加入不确定语气、自我纠正 | *(手动)* |
+| 7. 对比确认 | 确认分数改善 | `humanizer compare --before v1.md --after v2.md` |
 
-## Scoring Targets
+## 评分目标
 
-| Score | Status |
+| 分数 | 状态 |
 |-------|---------|
-| 0–25 | ✅ Human-like |
-| 26–50 | ⚠️ Light AI — one more pass |
-| 51–75 | ❌ Moderate — significant revision |
-| 76–100 | ❌ Heavy — rewrite |
+| 0–25 | ✅ 接近人类写作 |
+| 26–50 | ⚠️ 轻度 AI 痕迹——再修一轮 |
+| 51–75 | ❌ 中度——需要较大修改 |
+| 76–100 | ❌ 严重——需重写 |
 
-> Academic prose scores naturally higher. **< 40 is acceptable** for academic writing.
+> 学术文体天然偏正式，分数会偏高。学术写作以 **< 40 为合格目标**。
 
-## What to Inject vs. Remove
+## 应删除 vs. 应注入
 
-| Remove (AI) | Inject (Human) |
+| 删除（AI 特征） | 注入（人类特征） |
 |-------------|----------------|
-| "delve", "leverage", "utilize" | "explore", "use" |
-| Uniform 15–20 word sentences | Mix 5-word punches + 25-word elaborations |
-| Perfectly balanced structure | Uneven paras, tangents |
-| No contractions | *don't*, *wasn't*, *it's* throughout |
-| Linear clean conclusion | Spiral reasoning, visible doubt |
-| Abstract emotion ("I was sad") | Specific behavior ("I kept setting out two bowls") |
-| — | Self-corrections: "Actually, that's not quite right…" |
-| — | Uncertainty: "I suspect…", "I'm less sure about…" |
+| "delve"、"leverage"、"utilize" | 改用 "explore"、"use" |
+| 句长整齐划一（15–20词） | 混用短句（5词）与长句（25词） |
+| 段落结构过于对称 | 段落长短不均，允许旁支 |
+| 完全没有缩略语 | 全文穿插 *don't*、*wasn't*、*it's* |
+| 线性推进至整洁结论 | 螺旋式推理，保留明显的思考痕迹 |
+| 抽象情绪（"I was sad"） | 具体行为（"I kept setting out two bowls"） |
+| — | 自我纠正："Actually, that's not quite right…" |
+| — | 不确定语气："I suspect…"、"I'm less sure about…" |
 
-## Gotchas
+## 注意事项
 
-- GPTZero free: 3 scans/day — use local `score` commands for iteration loops
-- Grammarly will fight you; ignore ~50% of suggestions to preserve intentional imperfection
-- `-a` flag on `humanize` calls external APIs (GPTZero/Originality.ai) — costs credits
-- `--ignore-code` skips code blocks in technical/CS papers
+- GPTZero 免费版每天限 3 次——日常迭代用本地 `score` 命令代替
+- Grammarly 会与你"对着干"；保留约 50% 的不完美，无需全部采纳
+- `humanize` 的 `-a` 参数会调用外部 API（GPTZero/Originality.ai），会消耗额度
+- `--ignore-code` 可跳过技术/CS 论文中的代码块
 
 TAGS: academic-writing, ai-detection, humanizer, cli, writing
