@@ -1,8 +1,8 @@
 ---
 id: 69fd4cf9e94f1
 name: Ads Recommend
-tags: [recommender, ads, conversion, auc, calibration, rss]
-updated_at: 2026-06-14T00:38:05.316900Z
+tags: [recommender, ads, conversion, auc, calibration, rss, public]
+updated_at: 2026-06-14T21:10:12.333119Z
 ---
 
 ## 核心指标 (每 epoch 必出)
