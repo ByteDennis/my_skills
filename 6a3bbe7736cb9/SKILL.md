@@ -2,86 +2,86 @@
 id: 6a3bbe7736cb9
 name: dtrack: column match / stats preset
 tags: [dtrack, column-mapping, stats, preset, runbook, rss, public]
-updated_at: 2026-06-24T11:27:33.508300Z
+updated_at: 2026-06-24T12:12:37.950008Z
 ---
 
 # dtrack: column match / stats preset
 
->col 阶段两件事：先把左右列对上（`match-columns` → `col_map`），再决定每列算多深（`--preset` / `--stats-override`）。CTE 不能自省的表用 `{qname}_columns.csv` 手喂列。<
+>Two jobs in the col phase: first align left/right columns (`match-columns` → `col_map`), then decide how deep to compute stats per column (`--preset` / `--stats-override`). For tables that CTEs cannot introspect, feed columns manually via `{qname}_columns.csv`.<
 
-配套：[[dtrack: CLI runbook]] · 规则实现细节 [[dtrack: general knowledge]] · 统计语义 [[Data Engineer]]。
+Companion cards: [[dtrack: CLI runbook|6a3b8031de3c0]] · Rule implementation details [[dtrack: general knowledge|6a3a7b11b439b]] · Statistics semantics [[Data Engineer|6a05342d3068b]].
 
-## 一、列匹配：`match-columns`
+## 1. Column matching: `match-columns`
 
 ```bash
 dtrack match-columns project.db --config pairs.json --yes \
-  [--map-csv csv/col_map.csv]   # 显式映射 (pair,left,right)，优先级最高
-  [--mode merge|replace]        # merge=保留已有 col_map 再补；replace=重来
+  [--map-csv csv/col_map.csv]   # explicit mapping (pair,left,right), highest priority
+  [--mode merge|replace]        # merge=keep existing col_map then append; replace=start over
 ```
-匹配三来源（优先级：显式 > 规则 > 自动同名）：
-1. **auto**：左右**同名**列直接配对。
-2. **col_rules**：wildcard / regex 批量改名映射（如 `xxxx_([1-5])` → `yyyy_$1`）。
-3. **--map-csv**：手写 `pair,left,right` 三列 CSV，强制指定。
+Three matching sources (priority: explicit > rules > auto same-name):
+1. **auto**: left/right columns with **identical names** are paired directly.
+2. **col_rules**: wildcard / regex bulk rename mappings (e.g. `xxxx_([1-5])` → `yyyy_$1`).
+3. **--map-csv**: a hand-written `pair,left,right` three-column CSV for forced assignment.
 
-结果落进该 pair 的 `col_map = {左列: 右列}`，**只有 col_map 进抽取**。`--yes` 跳过手动确认（justfile 用它）。
+Results are stored in that pair's `col_map = {left_col: right_col}`; **only col_map entries enter extraction**. `--yes` skips manual confirmation (used by the justfile).
 
-> [!NOTE] 三层概念别混（详见 [[dtrack: general knowledge]]）
-> `col_map`（最终 {左:右}，进抽取）· `col_rules`（批量生成规则，**不**进抽取）· `col_filter`(`col_include`/`col_exclude`，决定抽哪些列，进抽取)。列注释 / 时间映射在 **web 的 col_mapping 页**做，不在 CLI。
+> [!NOTE] Don't confuse the three layers (see [[dtrack: general knowledge|6a3a7b11b439b]])
+> `col_map` (final {left:right}, enters extraction) · `col_rules` (bulk generation rules, do **not** enter extraction) · `col_filter` (`col_include`/`col_exclude`, decides which columns to extract, enters extraction). Column annotations / time mappings are done on the **web's col_mapping page**, not in the CLI.
 
-## 二、stats preset：每列算多深
+## 2. stats preset: how deep to compute per column
 
-`--preset`（挂在 col-gen，烘进 col SQL）三档：
+`--preset` (attached to col-gen, baked into col SQL) has three levels:
 
-| 统计 | quick | standard | detailed |
+| Statistic | quick | standard | detailed |
 |---|:--:|:--:|:--:|
-| `n_total`（行数） | ✓ | ✓ | ✓ |
-| `n_missing`（空/NULL） | ✓ | ✓ | ✓ |
-| `n_unique`（去重计数） | — | ✓ | ✓ |
-| `min_max` | 标量 | 标量 | `值=cnt` |
-| `length`（avg+max） | ✓ | ✓ | ✓ |
-| `hash_sum`（可移植 md5→int16 求和） | — | ✓ | ✓ |
-| `top_10`（频次表 top N） | — | — | ✓ |
+| `n_total` (row count) | ✓ | ✓ | ✓ |
+| `n_missing` (empty/NULL) | ✓ | ✓ | ✓ |
+| `n_unique` (distinct count) | — | ✓ | ✓ |
+| `min_max` | scalar | scalar | `value=cnt` |
+| `length` (avg+max) | ✓ | ✓ | ✓ |
+| `hash_sum` (portable md5→int16 sum) | — | ✓ | ✓ |
+| `top_10` (frequency table top N) | — | — | ✓ |
 
-- **quick**：纯扁平聚合，无频次表 → 最便宜、利于分区裁剪；分类列 min/max 是标量（字母序 MIN/MAX）。
-- **standard**：加 `n_unique` + `hash_sum`，跨引擎对比有了实质信号；仍无频次表。
-- **detailed**：加 `top_10` + `值=cnt` 形态的 min/max → 需要 WITH-chain 频次表（Hive 唯一会 GROUP BY 的档）。
+- **quick**: pure flat aggregation, no frequency table → cheapest, friendly to partition pruning; min/max for categorical columns is scalar (lexicographic MIN/MAX).
+- **standard**: adds `n_unique` + `hash_sum`, giving meaningful signals for cross-engine comparison; still no frequency table.
+- **detailed**: adds `top_10` + `value=cnt`-form min/max → requires WITH-chain frequency table (the only level that Hive handles with GROUP BY).
 
-> [!NOTE] mean/std 不在任何 preset
-> 经验信噪比差且翻倍查询成本，恒为 `''`；14 列 schema 不变。
+> [!NOTE] mean/std are not in any preset
+> Empirically poor signal-to-noise ratio and they double query cost; always `''`; the 14-column schema is unchanged.
 
-### 单项覆盖：`--stats-override`
-逗号分隔，键：`n_total, n_missing, n_unique, min_max, length, hash_sum, top_10`：
+### Per-item override: `--stats-override`
+Comma-separated, keys: `n_total, n_missing, n_unique, min_max, length, hash_sum, top_10`:
 ```bash
 dtrack generate … --type col --preset standard --stats-override n_unique=on,hash_sum=off
 ```
 
-## 三、14 列 col CSV schema（固定）
+## 3. 14-column col CSV schema (fixed)
 
-每个 `{qname}_col.csv` 恒为这 14 列（`COL_CSV_HEADERS`），不在 preset 里的统计出 `''`，跨平台 diff 才对得齐：
+Every `{qname}_col.csv` always has these 14 columns (`COL_CSV_HEADERS`); statistics not included in the preset output `''`, so cross-platform diffs align correctly:
 ```text
 dt, column_name, col_type, n_total, n_missing, n_unique,
 mean, std, min_val, max_val, top_10, length_avg, length_max, hash_sum
 ```
 
-## 四、CTE / 无法自省的表：手喂列
+## 4. CTE / non-introspectable tables: manual column feed
 
-`processed`（CTE join 多表）的一侧没有单一物理表可 `DESCRIBE`，自动发现会跳过并提示。手动提供 `{qname}_columns.csv`（放进 `--columns-dir`），表头灵活：
+One side of `processed` (CTE joining multiple tables) has no single physical table to `DESCRIBE`, so auto-discovery skips it and shows a prompt. Provide `{qname}_columns.csv` manually (place it in `--columns-dir`); the header is flexible:
 
 ```text
-column_name,data_type        # 或 variable,type / name,type 都认
+column_name,data_type        # or variable,type / name,type are also accepted
 cust_id,VARCHAR
 amt,DOUBLE
 ```
-`load-columns` 读它写进 `_column_meta`，col-stats builder 才能挑 sentinel family。
+`load-columns` reads it and writes into `_column_meta`, enabling the col-stats builder to pick the correct sentinel family.
 
-| 来源 | 列怎么来 |
+| Source | How columns are obtained |
 |---|---|
-| oracle/aws/databricks/hadoop 普通表 | `load-columns` 在线 DESCRIBE |
-| **csv 源** | 自动从 CSV 表头发现（DuckDB DESCRIBE / pandas）——**无需**手喂 |
-| **processed / CTE** | **必须**手写 `{qname}_columns.csv` |
+| oracle/aws/databricks/hadoop regular tables | `load-columns` online DESCRIBE |
+| **csv source** | auto-discovered from CSV header (DuckDB DESCRIBE / pandas) — **no** manual feed needed |
+| **processed / CTE** | **must** hand-write `{qname}_columns.csv` |
 
-## 观察什么
-- [ ] `match-columns` 打印 `Auto-matched: N` / `Rule-matched: N`；该配对的 key 列也映上了（sample-hash 需要）
-- [ ] `extract_col.*.sql` 只覆盖 `col_map` 里的列、按 preset 含/略各统计
-- [ ] CTE 侧：先放好 `{qname}_columns.csv` 再 `load-columns`，否则该侧列为空
-- [ ] 跨引擎对比看 `hash_sum`/`length_avg` 信号（[[Data Engineer]]）；存疑跑 [[dtrack: CSV → CSV + sample-hash]]
+## Checklist
+- [ ] `match-columns` prints `Auto-matched: N` / `Rule-matched: N`; the key columns for that pair are also mapped (needed for sample-hash)
+- [ ] `extract_col.*.sql` covers only columns in `col_map`, including/omitting statistics per preset
+- [ ] CTE side: place `{qname}_columns.csv` before running `load-columns`, otherwise that side's columns will be empty
+- [ ] For cross-engine comparison, check `hash_sum`/`length_avg` signals ([[Data Engineer|6a05342d3068b]]); if in doubt run [[dtrack: CSV → CSV + sample-hash|6a3b87c0905a7]]
